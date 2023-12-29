@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { eCardState, iCard } from './interfaces'
-import bottle from '../../Assets/img/wine-bottle.png';
+import bottle from '../../assets/img/wine-bottle.png';
 import './style.scss'
 import BottleRotation from "../../FX/BottleRotation";
 import Draggable from "../../FX/Draggable";
