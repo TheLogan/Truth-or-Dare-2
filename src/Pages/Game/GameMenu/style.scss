@@ -1,0 +1,58 @@
+.gameMenu {
+  height: 100vh;
+
+  .bg {
+    background-color: rgba(0, 0, 0, 0.244);
+    width: 100%;
+    font-family: engebrechtreRg;
+
+    .blue {
+      font-size: 64px;
+      background: linear-gradient(rgb(136, 207, 255) 50%, rgb(53, 174, 255) 55%, rgb(26, 123, 187) 95%);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-filter: drop-shadow(5px 5px rgb(0, 0, 0));
+      filter: drop-shadow(5px 5px rgb(0, 0, 0));
+    }
+    .gold {
+      font-size: 46px;
+      background-image: linear-gradient(#ffe19f 65%, #f8c458 70%);
+      padding: 15px;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-filter: drop-shadow(5px 5px rgb(0, 0, 0));
+      filter: drop-shadow(5px 5px rgb(0, 0, 0));
+    }
+    .pink {
+      font-size: 64px;
+      background: linear-gradient(rgb(255, 186, 255) 50%, rgb(255, 116, 172) 55%, rgb(255, 96, 160));
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-filter: drop-shadow(5px 5px rgb(0, 0, 0));
+      filter: drop-shadow(5px 5px rgb(0, 0, 0));
+    }
+  }
+
+  #playBtn {
+    border-radius: 100%;
+    height: 200px;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.596);
+
+    background-image: linear-gradient(#16193a 49%, #0c1032 51%);
+    filter: drop-shadow(5px 5px rgb(0, 0, 0));
+
+    .arrow {
+      width: 300px;
+      height: 300px;
+    }
+  }
+  #creditsBtn {
+    background-color: #16193a;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.596);
+    font-family: engebrechtreRg;
+    font-size: 32px;
+  }
+}

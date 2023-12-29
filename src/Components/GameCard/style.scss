@@ -1,0 +1,73 @@
+.gameCard {
+  width: 200px;
+  aspect-ratio: 0.53/1;
+  background-size: 75%;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 7px 7px 5px rgba(0, 0, 0, 0.5);
+  margin: 5px;
+  padding: 5px;
+
+  &.truth {
+    background-image: url("../../Assets/img/cardBgBlue.jpg");
+    border: 8px solid #7cb3ff;
+    outline: 1px solid #67a6ff;
+  }
+
+  &.dare {
+    background-image: url("../../Assets/img/cardBgPink.jpg");
+    border: 8px solid #f96caa;
+  }
+
+  &.special {
+    background-image: url("../../Assets/img/cardBgGold.jpg");
+    border: 8px solid #ffc63e;
+  }
+
+  .content {
+    min-height: 40%;
+    width: 75%;
+    margin: 20px auto;
+    padding: 10px;
+
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+
+    p {
+      font-family: Roboto;
+    }
+
+    &.truth {
+      box-shadow: inset 6px 6px 15px #274c80;
+      border: 1px solid #7cb3ff;
+      background: #7cb3ff;
+    }
+
+    &.dare {
+      box-shadow: inset 6px 6px 15px #9f3362;
+      border: 1px solid #f96caa;
+      background: #f96caa;
+    }
+
+    &.special {
+      box-shadow: inset 6px 6px 15px #a4853a;
+      border: 1px solid #ffc63e;
+      background: #ffc63e;
+    }
+  }
+
+  #bottleWrapper {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+
+    #bottle {
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+      width: 150px;
+    }
+  }
+}

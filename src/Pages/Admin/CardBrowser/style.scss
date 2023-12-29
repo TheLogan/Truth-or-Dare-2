@@ -1,0 +1,50 @@
+.categoryContainer {
+  border: 2px solid #516156;
+  background-image: url("../../../Assets/img/DarkTiling.jpg");
+  background-size: 5%;
+  padding: 20px;
+  margin: 20px;
+  padding-bottom: 60px;
+  border-radius: 10px;
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.5);
+}
+
+.titlebar {
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 5px;
+  border-bottom: 5px solid rgba(0, 0, 0, 0.25);
+  padding: 10px;
+}
+
+.tableHead {
+  &.truth {
+    background-color: lightblue;
+  }
+  &.dare {
+    background-color: hotpink;
+  }
+  &.special {
+    background-color: gold;
+  }
+}
+
+.tableRow {
+  &.truth {
+    border-bottom: lightblue 3px solid;
+  }
+  &.dare {
+    border-bottom: hotpink 3px solid;
+  }
+  &.special {
+    border-bottom: gold 3px solid;
+  }
+}
+
+.formatBtnWrapper {
+  position: relative;
+  .formatBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+  }
+}
