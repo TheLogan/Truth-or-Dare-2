@@ -8,7 +8,7 @@ interface LayoutProps {
 
 
 const Layout = (props: LayoutProps) => {
-  return <Grid container className="background" justifyContent="center" alignContent="center">
+  return <Grid container className="background" justifyContent="center" alignContent="center" style={{width: '100vw'}}>
     <Grid item >
       {props.children}
     </Grid>
