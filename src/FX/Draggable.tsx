@@ -29,7 +29,7 @@ const Draggable = (props: iProps) => {
     setDragPos({ x: 0, y: 0 });
   }
 
-  return <Dragger position={dragPos || undefined} onStart={onStart} onStop={onStop} onDrag={(e, d) => handleDrag(d)} nodeRef={nodeRef} >
+  return <Dragger position={dragPos || undefined} onStart={onStart} onStop={onStop} onDrag={(_e, d) => handleDrag(d)} nodeRef={nodeRef} >
     <div style={style} ref={nodeRef}>
       {props.children}
     </div>

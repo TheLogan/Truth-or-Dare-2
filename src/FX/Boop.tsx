@@ -1,7 +1,7 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { iBoop } from "./interfaces";
 
-const Boop: React.FC<iBoop> = (props) => {
+const Boop = (props: iBoop) => {
   const [isBooped, setIsBooped] = useState(false);
 
   const style: CSSProperties = {

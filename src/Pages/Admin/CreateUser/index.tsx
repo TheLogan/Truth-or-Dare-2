@@ -1,22 +1,22 @@
-import { Button, Grid, TextField } from "@mui/material";
-import { useState } from "react";
+import { Grid, /* Button, TextField */ } from "@mui/material";
+// import { useState } from "react";
 import Well from "../../../Components/Well";
-import { useActions } from "../../../Overmind";
+// import { useActions } from "../../../Overmind";
 
 const CreateUser: React.FC = () => {
-  const { createUser } = useActions().admin;
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const { createUser } = useActions().admin;
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const createUserClicked = () => {
-    createUser({username, password});
-  };
+  // const createUserClicked = () => {
+  //   createUser({username, password});
+  // };
 
   return (
     <Well variant="light">
       <Grid container direction="column">
         <h3>Create New User</h3>
-        <TextField
+        {/* <TextField
           label="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -29,7 +29,7 @@ const CreateUser: React.FC = () => {
         />
         <Button onClick={createUserClicked} variant="contained">
           Create user
-        </Button>
+        </Button> */}
       </Grid>
     </Well>
   );
