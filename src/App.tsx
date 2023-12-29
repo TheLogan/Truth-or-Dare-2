@@ -27,7 +27,6 @@ function App() {
     console.log('cards', cards)
   };
 
-
   //Routing on individual pages/subroutes
   return (
     <Router>
