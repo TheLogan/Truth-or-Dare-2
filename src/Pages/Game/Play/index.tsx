@@ -52,6 +52,7 @@ const Play = () => {
           direction="column"
           justifyContent="space-between"
           alignContent="space-evenly"
+          style={{width: '100vw'}}
         >
           {renderBtn("truth")}
           <h3 id="or">Or</h3>

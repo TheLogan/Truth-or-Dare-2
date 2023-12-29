@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Layout from './Components/Layout';
 import MainMenu from './Pages/MainMenu';
 import 'typeface-roboto'
@@ -29,7 +29,7 @@ function App() {
 
   //Routing on individual pages/subroutes
   return (
-    <Router>
+    <HashRouter>
       <Routes>
         <Route path="/game/*" element={<Game />} />
         <Route path="/download" element={
@@ -47,7 +47,7 @@ function App() {
           </Layout>
         } />
       </Routes>
-    </Router>
+    </HashRouter>
   );
 }
 
