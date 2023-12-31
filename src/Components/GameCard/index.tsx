@@ -34,7 +34,11 @@ const GameCard = React.forwardRef<HTMLDivElement, iCard>((props, ref) => {
           onDone={() => props.onCardStateChange && props.onCardStateChange(eCardState.done)}
         >
           <img id="bottle" src={bottle} alt="bottle" draggable={false}
-            onClick={() => props.onCardStateChange?.(eCardState.bottleSpinning)}
+            onClick={() => {
+              if (props.cardState !== eCardState.bottleSpinning && props.cardState !== eCardState.done) {
+                props.onCardStateChange?.(eCardState.bottleSpinning);
+              }
+            }}
           />
         </BottleRotation>
       </div>
