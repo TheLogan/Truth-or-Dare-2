@@ -1,7 +1,8 @@
 import './style.scss'
+import type { ReactNode } from "react";
 
 interface iProps {
-  children: React.ReactNode;
+  children: ReactNode;
   variant: 'light' | 'dark';
 }
 

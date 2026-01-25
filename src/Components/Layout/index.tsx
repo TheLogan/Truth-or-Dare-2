@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { ReactNode } from 'react';
 import './style.scss';
 
@@ -8,11 +8,16 @@ interface LayoutProps {
 
 
 const Layout = (props: LayoutProps) => {
-  return <Grid container className="background" justifyContent="center" alignContent="center" style={{width: '100vw'}}>
-    <Grid item >
-      {props.children}
-    </Grid>
-  </Grid>
+  return (
+    <Stack
+      className="background"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ width: '100vw' }}
+    >
+      <Box>{props.children}</Box>
+    </Stack>
+  );
 }
 
 export default Layout;

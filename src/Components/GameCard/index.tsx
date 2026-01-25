@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { eCardState, iCard } from './interfaces'
 import bottle from '../../assets/img/wine-bottle.png';
 import './style.scss'
@@ -6,7 +6,7 @@ import BottleRotation from "../../FX/BottleRotation";
 import Draggable from "../../FX/Draggable";
 import { formatCardText, getRotation, randomRange } from "../../utils/utils";
 
-const GameCard = React.forwardRef<HTMLDivElement, iCard>((props, ref) => {
+const GameCard = forwardRef<HTMLDivElement, iCard>((props, ref) => {
   const [descriptiveText, setDescriptiveText] = useState('');
   const [rotation] = useState(getRotation());
   const [timing] = useState(randomRange(2, 3) * 1000);

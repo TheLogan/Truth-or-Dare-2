@@ -9,18 +9,18 @@
   padding: 5px;
 
   &.truth {
-    background-image: url("../../Assets/img/cardBgBlue.jpg");
+    background-image: url("../../assets/img/cardBgBlue.jpg");
     border: 8px solid #7cb3ff;
     outline: 1px solid #67a6ff;
   }
 
   &.dare {
-    background-image: url("../../Assets/img/cardBgPink.jpg");
+    background-image: url("../../assets/img/cardBgPink.jpg");
     border: 8px solid #f96caa;
   }
 
   &.special {
-    background-image: url("../../Assets/img/cardBgGold.jpg");
+    background-image: url("../../assets/img/cardBgGold.jpg");
     border: 8px solid #ffc63e;
   }
 

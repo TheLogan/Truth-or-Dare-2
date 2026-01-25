@@ -1,13 +1,29 @@
 .gameMenu {
-  height: 100vh;
+  width: 100vw;
+  text-align: center;
+
+  h1 {
+    font-size: clamp(48px, 8vw, 111px);
+    line-height: 1.1;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+  }
 
   .bg {
     background-color: rgba(0, 0, 0, 0.244);
     width: 100%;
     font-family: engebrechtreRg;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    font-size: clamp(40px, 12vw, 64px);
 
     .blue {
-      font-size: 64px;
+      font-size: 1em;
       background: linear-gradient(rgb(136, 207, 255) 50%, rgb(53, 174, 255) 55%, rgb(26, 123, 187) 95%);
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -15,16 +31,16 @@
       filter: drop-shadow(5px 5px rgb(0, 0, 0));
     }
     .gold {
-      font-size: 46px;
+      font-size: 0.72em;
       background-image: linear-gradient(#ffe19f 65%, #f8c458 70%);
-      padding: 15px;
+      padding: 0.2em 0.35em;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       -webkit-filter: drop-shadow(5px 5px rgb(0, 0, 0));
       filter: drop-shadow(5px 5px rgb(0, 0, 0));
     }
     .pink {
-      font-size: 64px;
+      font-size: 1em;
       background: linear-gradient(rgb(255, 186, 255) 50%, rgb(255, 116, 172) 55%, rgb(255, 96, 160));
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -50,6 +66,7 @@
     }
   }
   #creditsBtn {
+    width: 100%;
     background-color: #16193a;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.596);
     font-family: engebrechtreRg;
