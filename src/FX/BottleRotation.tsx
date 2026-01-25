@@ -1,9 +1,9 @@
-import { CSSProperties, useEffect } from "react";
+import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { eCardState } from "../Components/GameCard/interfaces";
 import { iBottleRotation } from "./interfaces";
 
 interface iProps extends iBottleRotation {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const BottleRotation = (props: iProps) => {

@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Dragger, { DraggableData } from "react-draggable";
 import { Vector2 } from "../utils/types";
 import { iDraggable } from "./interfaces";
 
 interface iProps extends iDraggable {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const Draggable = (props: iProps) => {
@@ -22,7 +22,7 @@ const Draggable = (props: iProps) => {
     return () => document.body.classList.remove("no-scroll");
   }, [isDragging]);
 
-  const style: React.CSSProperties = {
+  const style: CSSProperties = {
     transition: isDragging === false ? "transform 0.3s" : undefined,
     touchAction: "none",
     userSelect: "none",

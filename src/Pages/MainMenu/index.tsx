@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const MainMenu = () => {
   const navigation = useNavigate();

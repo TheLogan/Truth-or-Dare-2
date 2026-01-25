@@ -3,7 +3,7 @@ import { Stack, /* Button, TextField */ } from "@mui/material";
 import Well from "../../../Components/Well";
 // import { useActions } from "../../../Overmind";
 
-const CreateUser: React.FC = () => {
+const CreateUser = () => {
   // const { createUser } = useActions().admin;
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
