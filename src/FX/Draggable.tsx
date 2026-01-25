@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Dragger, { DraggableData } from "react-draggable";
 import { Vector2 } from "../utils/types";
 import { iDraggable } from "./interfaces";
@@ -10,11 +10,23 @@ interface iProps extends iDraggable {
 const Draggable = (props: iProps) => {
   const [dragPos, setDragPos] = useState<null | Vector2>(null)
   const [isDragging, setIsDragging] = useState(false);
-  const nodeRef = React.useRef(null);
+  const nodeRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (isDragging) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    return () => document.body.classList.remove("no-scroll");
+  }, [isDragging]);
 
   const style: React.CSSProperties = {
-    transition: isDragging === false ? 'transform 0.3s' : undefined
-  }
+    transition: isDragging === false ? "transform 0.3s" : undefined,
+    touchAction: "none",
+    userSelect: "none",
+  };
 
   const handleDrag = (d: DraggableData) => setDragPos(new Vector2({ x: d.x, y: d.y }));
   const onStart = () => setIsDragging(true);

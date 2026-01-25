@@ -12,4 +12,19 @@
       width: 50%;
     }
   }
+
+  .time-field {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    .MuiInputLabel-root {
+      white-space: normal;
+    }
+  }
+
+  .time-field-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
 }

@@ -1,4 +1,4 @@
-import { Grid, /* Button, TextField */ } from "@mui/material";
+import { Stack, /* Button, TextField */ } from "@mui/material";
 // import { useState } from "react";
 import Well from "../../../Components/Well";
 // import { useActions } from "../../../Overmind";
@@ -14,7 +14,7 @@ const CreateUser: React.FC = () => {
 
   return (
     <Well variant="light">
-      <Grid container direction="column">
+      <Stack direction="column">
         <h3>Create New User</h3>
         {/* <TextField
           label="Username"
@@ -30,7 +30,7 @@ const CreateUser: React.FC = () => {
         <Button onClick={createUserClicked} variant="contained">
           Create user
         </Button> */}
-      </Grid>
+      </Stack>
     </Well>
   );
 };

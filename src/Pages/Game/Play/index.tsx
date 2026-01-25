@@ -1,5 +1,5 @@
-import { Button, Grid } from "@mui/material";
-import React, { useEffect } from "react";
+import { Button, Stack } from "@mui/material";
+import { useEffect, useState } from "react";
 import GameCard from "../../../Components/GameCard";
 import { eCardState } from "../../../Components/GameCard/interfaces";
 import { capitalizeFirstLetter, initialShuffle, useDiscardSelected, useNextCard } from "../../../utils/utils";
@@ -11,7 +11,7 @@ const Play = () => {
   const allCards = useAtomValue(cardsAtom);
   const setDeck = useSetAtom(deckAtom);
   const currentCard = useAtomValue(currentCardAtom);
-  const [cardState, setCardState] = React.useState<eCardState>(eCardState.unTouched);
+  const [cardState, setCardState] = useState<eCardState>(eCardState.unTouched);
   const nextCard = useNextCard();
   const discardSelected = useDiscardSelected();
 
@@ -47,17 +47,16 @@ const Play = () => {
   function renderBody() {
     return (
       <>
-        <Grid
-          container
+        <Stack
           direction="column"
           justifyContent="space-between"
-          alignContent="space-evenly"
-          style={{width: '100vw'}}
+          alignItems="center"
+          sx={{ width: '100vw' }}
         >
           {renderBtn("truth")}
           <h3 id="or">Or</h3>
           {renderBtn("dare")}
-        </Grid>
+        </Stack>
         {currentCard && (
           <div
             style={{
