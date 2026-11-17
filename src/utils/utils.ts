@@ -3,14 +3,24 @@ import { tCard } from "../types";
 import {
   brandCategory,
   drinkOrStrip,
-  getAge,
+  newOld,
   getDirection,
   getLeastMost,
   getTitle,
   oneOrTwoPieces,
   wordEnding,
+  youngOld,
 } from "./randomizers";
-import { cardsSinceLastSpecialAtom, currentCardAtom, deckAtom, discardPileAtom, endLevelAtom, startLevelAtom, startTimeAtom, timeBetweenLevelsAtom } from "../Jotai/Game";
+import {
+  cardsSinceLastSpecialAtom,
+  currentCardAtom,
+  deckAtom,
+  discardPileAtom,
+  endLevelAtom,
+  startLevelAtom,
+  startTimeAtom,
+  timeBetweenLevelsAtom,
+} from "../Jotai/Game";
 
 export const capitalizeFirstLetter = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -44,15 +54,20 @@ export const getRotation = () => {
   return rot + 360 * randomRange(3, 6);
 };
 
-export const getCurrentLevel = (startTime: number, startLevel: number, endLevel: number, timeBetweenLevels: number) => {
+export const getCurrentLevel = (
+  startTime: number,
+  startLevel: number,
+  endLevel: number,
+  timeBetweenLevels: number,
+) => {
   const currentTime = new Date().getTime();
-  const elapsedMs = (currentTime - startTime);
+  const elapsedMs = currentTime - startTime;
   const perLevelInMs = timeBetweenLevels * 60 * 1000;
 
   let currentLevel = Math.floor(elapsedMs / perLevelInMs) + startLevel;
   if (currentLevel > endLevel) currentLevel = endLevel;
   return currentLevel;
-}
+};
 
 export const formatCardText = (description: string) => {
   const rangeReg = /\*\d+@\d+\*/g;
@@ -66,7 +81,7 @@ export const formatCardText = (description: string) => {
       const [min, max] = str.split("@");
       descr = descr.replace(
         ra,
-        Math.round(randomRange(Number(min), Number(max))).toString()
+        Math.round(randomRange(Number(min), Number(max))).toString(),
       );
     }
   }
@@ -75,15 +90,17 @@ export const formatCardText = (description: string) => {
   descr = descr.replaceAll("*direction*", getDirection());
   descr = descr.replaceAll("*wordEnding*", wordEnding());
   descr = descr.replaceAll("*title*", getTitle());
-  descr = descr.replaceAll("*youngOld*", getAge());
+  descr = descr.replaceAll("*youngOld*", youngOld());
+  descr = descr.replaceAll("*newOld*", newOld());
   descr = descr.replaceAll("*leastMost*", getLeastMost());
   descr = descr.replaceAll("*drinkStrip*", drinkOrStrip());
   const [brandName, category] = brandCategory();
   descr = descr.replaceAll("*brandName*", brandName);
   descr = descr.replaceAll("*category*", category);
+  // Turn literal "\n" sequences into real line breaks (rendered via white-space: pre-line)
+  descr = descr.replaceAll("\\n", "\n");
   return descr;
 };
-
 
 export const useNextCard = () => {
   const [deck, setDeck] = useAtom(deckAtom);
@@ -93,12 +110,25 @@ export const useNextCard = () => {
   const startLevel = useAtomValue(startLevelAtom);
   const endLevel = useAtomValue(endLevelAtom);
   const timeBetweenLevels = useAtomValue(timeBetweenLevelsAtom);
-  const [cardsSinceLastSpecial, setCardsSinceLastSpecial] = useAtom(cardsSinceLastSpecialAtom);
+  const [cardsSinceLastSpecial, setCardsSinceLastSpecial] = useAtom(
+    cardsSinceLastSpecialAtom,
+  );
 
   const nextCard = (val: "truth" | "dare") => {
     let selected: null | tCard = null;
-    const currentLevel = getCurrentLevel(startTime, startLevel, endLevel, timeBetweenLevels || 3);
-    const findIndex = (localDeck: tCard[]) => localDeck.findIndex(x => (x.card_type === val || (x.card_type === 'special' && cardsSinceLastSpecial > 4)) && x.level <= currentLevel);
+    const currentLevel = getCurrentLevel(
+      startTime,
+      startLevel,
+      endLevel,
+      timeBetweenLevels || 3,
+    );
+    const findIndex = (localDeck: tCard[]) =>
+      localDeck.findIndex(
+        (x) =>
+          (x.card_type === val ||
+            (x.card_type === "special" && cardsSinceLastSpecial > 4)) &&
+          x.level <= currentLevel,
+      );
     let selectedIndex = -1;
     let attempts = 0;
 
@@ -111,27 +141,27 @@ export const useNextCard = () => {
         tempDiscard = [...discardPile, ...deck];
         tempDeck = shuffleCards(tempDiscard);
 
-        console.log('shuffling');
+        console.log("shuffling");
       }
       attempts++;
     }
 
-    if (selectedIndex < 0) throw new Error('card index is less than 0');
+    if (selectedIndex < 0) throw new Error("card index is less than 0");
 
     const discarded = tempDeck.splice(0, selectedIndex);
     selected = tempDeck.splice(0, 1)[0];
     if (currentCard) tempDiscard.push(currentCard); // currentCard should already be discarded, can this introduce duplicates?
     tempDiscard.push(...discarded);
 
-    if (selected.card_type === 'special') setCardsSinceLastSpecial(0);
+    if (selected.card_type === "special") setCardsSinceLastSpecial(0);
     else setCardsSinceLastSpecial(cardsSinceLastSpecial + 1);
 
     setDeck(tempDeck);
     setCurrentCard(selected);
     setDiscardPile(tempDiscard);
-  }
+  };
   return nextCard;
-}
+};
 
 export const useDiscardSelected = () => {
   const [currentCard, setCurrentCard] = useAtom(currentCardAtom);
@@ -141,9 +171,9 @@ export const useDiscardSelected = () => {
     if (!currentCard) return;
     setDiscardPile([...discardPile, currentCard]);
     setCurrentCard(null);
-  }
+  };
   return discardSelected;
-}
+};
 
 /* IDEAS */
 // Countdown function

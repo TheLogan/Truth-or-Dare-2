@@ -86,7 +86,7 @@ const CardBrowser = () => {
                 className={`tableRow ${variant}`}
               >
                 <TableCell>{card.card_id}</TableCell>
-                <TableCell>{formatDescr ? formatCardText(card.content) : card.content}</TableCell>
+                <TableCell sx={{ whiteSpace: "pre-line" }}>{formatDescr ? formatCardText(card.content) : card.content}</TableCell>
                 <TableCell align="right">{card.level}</TableCell>
                 <TableCell align="right">{card.spin_bottle ? <CheckBox /> : <CheckBoxOutlineBlank />}</TableCell>
                 <TableCell align="right">{card.cards_in_game}</TableCell>

@@ -7,6 +7,8 @@
   box-shadow: 7px 7px 5px rgba(0, 0, 0, 0.5);
   margin: 5px;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
 
   &.truth {
     background-image: url("../../assets/img/cardBgBlue.jpg");
@@ -25,10 +27,16 @@
   }
 
   .content {
-    min-height: 40%;
-    width: 75%;
-    margin: 20px auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 82%;
+    margin: 14px auto;
     padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
@@ -36,7 +44,17 @@
     user-select: none; /* Standard */
 
     p {
+      white-space: pre-line;
       font-family: Roboto;
+      margin: 0;
+      line-height: 1.25;
+      overflow-wrap: break-word; // only breaks a word if it can't fit on a line by itself
+      hyphens: none;
+
+      &.size-xs { font-size: 26px; }
+      &.size-sm { font-size: 21px; }
+      &.size-md { font-size: 17px; }
+      &.size-lg { font-size: 14px; }
     }
 
     &.truth {
@@ -59,15 +77,16 @@
   }
 
   #bottleWrapper {
+    flex: 0 0 auto;
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
+    width: 130px;
+    margin: 0 auto 8px;
 
     #bottle {
       display: flex;
       margin-left: auto;
       margin-right: auto;
-      width: 150px;
+      width: 100%;
     }
   }
 }

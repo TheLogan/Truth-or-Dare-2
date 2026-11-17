@@ -4,6 +4,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import type { tCard } from "../../../types";
+import GameCard from "../../../Components/GameCard";
 import "./dialog.scss";
 
 export type CardDraft = Omit<tCard, "card_id"> & { card_id?: number };
@@ -27,6 +28,8 @@ interface Props {
 
 const CardDialog = ({ card, saving, error, onClose, onSave, onDelete }: Props) => {
   const [draft, setDraft] = useState<CardDraft>(card);
+  const [preview, setPreview] = useState(false);
+  const [shuffle, setShuffle] = useState(0);
   const isNew = draft.card_id === undefined;
   const set = <K extends keyof CardDraft>(key: K, value: CardDraft[K]) =>
     setDraft((d) => ({ ...d, [key]: value }));
@@ -55,11 +58,22 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete }: Props) =
             control={<Switch checked={draft.spin_bottle} onChange={(e) => set("spin_bottle", e.target.checked)} />}
             label="Spin bottle"
           />
+          {preview && (
+            <div className="cardPreview">
+              {/* GameCard formats its text on mount, so remount when anything changes */}
+              <GameCard
+                key={`${shuffle}|${draft.card_type}|${draft.spin_bottle}|${draft.content}`}
+                card={{ ...draft, card_id: draft.card_id ?? -1 }}
+              />
+              <Button size="small" onClick={() => setShuffle((n) => n + 1)}>Re-roll placeholders</Button>
+            </div>
+          )}
           {error && <i className="error">{error}</i>}
         </Stack>
       </DialogContent>
       <DialogActions>
         {onDelete && <Button color="error" onClick={onDelete} disabled={saving}>Delete</Button>}
+        <Button onClick={() => setPreview((p) => !p)}>{preview ? "Hide preview" : "Preview"}</Button>
         <Button onClick={onClose}>Cancel</Button>
         <Button variant="contained" disabled={saving || !draft.content.trim()} onClick={() => onSave(draft)}>
           Save

@@ -6,6 +6,14 @@ import BottleRotation from "../../FX/BottleRotation";
 import Draggable from "../../FX/Draggable";
 import { formatCardText, getRotation, randomRange } from "../../utils/utils";
 
+// Card text ranges from a few words to ~150 characters, so scale the type to fit.
+const textSize = (length: number) => {
+  if (length <= 30) return "xs";
+  if (length <= 60) return "sm";
+  if (length <= 100) return "md";
+  return "lg";
+};
+
 const GameCard = forwardRef<HTMLDivElement, iCard>((props, ref) => {
   const [descriptiveText, setDescriptiveText] = useState('');
   const [rotation] = useState(getRotation());
@@ -49,9 +57,9 @@ const GameCard = forwardRef<HTMLDivElement, iCard>((props, ref) => {
 
   function renderBody() {
     const card = (
-      <div className={"gameCard " + props.card.card_type} onClick={() => props.onClick && props.onClick(props.card)}>
+      <div className={"gameCard " + props.card.card_type + (props.card.spin_bottle ? " hasBottle" : "")} onClick={() => props.onClick && props.onClick(props.card)}>
         <div className={"content " + props.card.card_type} >
-          <p>{descriptiveText}</p>
+          <p className={"size-" + textSize(descriptiveText.length)}>{descriptiveText}</p>
         </div>
         {renderBottle()}
       </div>
