@@ -8,7 +8,7 @@ export const currentCardAtom = atom<tCard | null>(null);
 export const discardPileAtom = atom<tCard[]>([]);
 
 export const startLevelAtom = atom(0);
-export const endLevelAtom = atom(0);
+export const endLevelAtom = atom(1);
 export const startTimeAtom = atom(0);
 export const timeBetweenLevelsAtom = atom(3);
 export const cardsSinceLastSpecialAtom = atom(0);

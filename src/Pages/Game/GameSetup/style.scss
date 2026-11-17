@@ -1,30 +1,111 @@
 .setup-container {
   font-family: BlendaScript;
   font-size: 18px;
-  min-height: 250px;
+  width: min(80vw, 360px);
 
-  .MuiFormControl-root {
-    background-color: white;
-    border-radius: 2px;
+  h3 {
+    text-align: center;
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 8px;
   }
-  .level-wrapper {
-    .selecter {
-      width: 50%;
+
+  .level-summary {
+    text-align: center;
+    font-family: engebrechtreRg;
+    font-size: 26px;
+    font-weight: bolder;
+    margin-bottom: 4px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.7);
+
+    .arrow {
+      color: #e8e8e8;
+      font-size: 0.8em;
     }
   }
 
-  .time-field {
-    width: 100%;
-    max-width: 100%;
+  .level-slider {
+    width: calc(100% - 64px);
+    margin: 0 32px 16px;
     box-sizing: border-box;
 
-    .MuiInputLabel-root {
-      white-space: normal;
+    .MuiSlider-rail {
+      height: 8px;
+      background: linear-gradient(90deg, #66d97a, #ffd54a, #ff9148, #ff5a5f);
+      opacity: 0.35;
+    }
+    .MuiSlider-track {
+      height: 8px;
+      border: none;
+    }
+    .MuiSlider-mark {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .MuiSlider-thumb {
+      width: 26px;
+      height: 26px;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+    .MuiSlider-markLabel {
+      font-family: engebrechtreRg;
+      font-size: 13px;
+      top: 34px;
+    }
+    .mark-label {
+      opacity: 0.45;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+      &.active {
+        opacity: 1;
+        font-weight: bolder;
+      }
     }
   }
 
-  .time-field-wrapper {
-    width: 100%;
-    min-width: 0;
+  .time-stepper {
+    gap: 12px;
+
+    .MuiIconButton-root {
+      background: #eee;
+      color: #222;
+      border-radius: 6px;
+      &:hover {
+        background: #fff;
+      }
+      &.Mui-disabled {
+        background: rgba(255, 255, 255, 0.25);
+        color: rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .time-value {
+      min-width: 110px;
+      text-align: center;
+      font-family: engebrechtreRg;
+      font-size: 40px;
+      font-weight: bolder;
+      color: #fff;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.7);
+      span {
+        font-size: 20px;
+      }
+    }
   }
+}
+
+.darkBackground.setup-well {
+  padding-bottom: 20px;
+}
+
+.startBtn.MuiButton-root {
+  font-family: engebrechtreRg;
+  font-size: 30px;
+  font-weight: bolder;
+  padding: 4px 28px;
+  color: #3a2400;
+  box-shadow: 4px 8px 5px #000;
+  background: linear-gradient(rgb(255, 241, 112) 50%, rgb(255, 217, 0) 55%, rgb(255, 174, 0));
 }

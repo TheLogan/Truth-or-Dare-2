@@ -1,21 +1,22 @@
-import { Box, Button, MenuItem, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, IconButton, Slider, Stack } from "@mui/material";
+import { Add, Remove } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import Well from "../../../Components/Well";
-// import { useActions, useAppState } from "../../../Overmind";
-import "./style.scss";
 import { useAtom, useSetAtom } from "jotai";
+import Well from "../../../Components/Well";
+import "./style.scss";
 import { startLevelAtom, endLevelAtom, timeBetweenLevelsAtom, startTimeAtom } from "../../../Jotai/Game";
 
-const LEVELS = [0, 1, 2, 3] as const;
+const LEVELS = [
+  { value: 0, label: "Innocent", color: "#66d97a" },
+  { value: 1, label: "Suggestive", color: "#ffd54a" },
+  { value: 2, label: "Salacious", color: "#ff9148" },
+  { value: 3, label: "Explicit", color: "#ff5a5f" },
+] as const;
+
 const minTime = 3;
 const maxTime = 15;
 
-const clamp = (val: number, min: number, max: number) => {
-  if (val < min) return min;
-  if (val > max) return max;
-  return val;
-};
+const clamp = (val: number, min: number, max: number) => Math.min(max, Math.max(min, val));
 
 const GameSetup = () => {
   const [startLevel, setStartLevel] = useAtom(startLevelAtom);
@@ -25,144 +26,89 @@ const GameSetup = () => {
 
   const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({
-    stLvlErr: false,
-    endLvlErr: false,
-    timeErr: false,
-  });
-
-  const levelStart = () => {
-    const activeValues = LEVELS.filter((x) => x <= endLevel);
-    return renderLevel(
-      "start",
-      startLevel,
-      errors.stLvlErr,
-      activeValues,
-      setStartLevel,
-      () => setErrors({ ...errors, stLvlErr: false })
-    );
-  };
-
-  const levelEnd = () => {
-    const activeValues = LEVELS.filter((x) => x >= startLevel);
-    return renderLevel(
-      "end",
-      endLevel,
-      errors.endLvlErr,
-      activeValues,
-      setEndLevel,
-      () => setErrors({ ...errors, endLvlErr: false })
-    );
-  };
-
   const startGame = () => {
-    const stLvlErr = Number.isNaN(startLevel);
-    const endLvlErr = Number.isNaN(endLevel);
-    const timeErr = Number.isNaN(timeBetweenLevels) || timeBetweenLevels < 3 || timeBetweenLevels > 15;
-    setErrors({
-      stLvlErr,
-      endLvlErr,
-      timeErr,
-    });
-
-    if (!stLvlErr && !endLvlErr && !timeErr) {
-      setStartTime(new Date().getTime());
-      navigate("/game/play");
-    }
+    setStartTime(new Date().getTime());
+    navigate("/game/play");
   };
 
-  const renderLevel = (
-    label: string,
-    value: number,
-    err: boolean,
-    activeValues: number[],
-    onChange: (val: number) => void,
-    onFocus: () => void
-  ) => {
-    return (
-      <TextField
-        select
-        error={err}
-        variant="filled"
-        value={value}
-        label={label}
-        className="selecter"
-        onChange={(e) => onChange(Number(e.target.value))}
-        onFocus={onFocus}
-      >
-        <MenuItem
-          value={0}
-          disabled={!activeValues.includes(0)}
-        >
-          Innocent
-        </MenuItem>
-        <MenuItem
-          value={1}
-          disabled={!activeValues.includes(1)}
-        >
-          Suggestive
-        </MenuItem>
-        <MenuItem
-          value={2}
-          disabled={!activeValues.includes(2)}
-        >
-          Salacious
-        </MenuItem>
-        <MenuItem
-          value={3}
-          disabled={!activeValues.includes(3)}
-        >
-          Explicit
-        </MenuItem>
-      </TextField>
-    );
+  // Keep the thumbs at least one level apart so they never overlap.
+  const handleLevels = (_: Event, value: number | number[], activeThumb: number) => {
+    if (!Array.isArray(value)) return;
+    if (activeThumb === 0) setStartLevel(Math.min(value[0], endLevel - 1));
+    else setEndLevel(Math.max(value[1], startLevel + 1));
   };
+
+  const inRange = (level: number) => level >= startLevel && level <= endLevel;
+
+  const summary = `${LEVELS[startLevel].label} → ${LEVELS[endLevel].label}`;
 
   return (
     <>
-      <h1>Settings</h1>
-      <Well variant="dark">
-        {/* <Well variant="light"> */}
+      <h1 style={{ paddingLeft: 0, textAlign: "center" }}>Settings</h1>
+      <Well variant="dark" className="setup-well">
         <div className="setup-container">
-          <Stack direction="column" sx={{ height: "230px", justifyContent: "space-between" }}>
-            <Box>
-              <div className="level-wrapper">
-                <h3>Salaciousness Level</h3>
-                <Stack direction="row" sx={{ justifyContent: "space-evenly", alignItems: "flex-end" }}>
-                  {levelStart()}
-                  {levelEnd()}
-                </Stack>
+          <Stack direction="column" spacing={3}>
+            <Box className="level-wrapper">
+              <h3>Salaciousness Level</h3>
+              <div className="level-summary">
+                <span style={{ color: LEVELS[startLevel].color }}>{LEVELS[startLevel].label}</span>
+                <span className="arrow"> → </span>
+                <span style={{ color: LEVELS[endLevel].color }}>{LEVELS[endLevel].label}</span>
               </div>
-            </Box>
-            <Box className="time-field-wrapper">
-              <TextField
-                variant="filled"
-                label="Time between levels"
-                className="time-field"
-                fullWidth
-                type="number"
-                value={timeBetweenLevels}
-                onChange={(e) => {
-                  const nextValue = e.target.value;
-                  if (nextValue === "") {
-                    setTimeBetweenLevels(minTime);
-                    return;
-                  }
-                  setTimeBetweenLevels(clamp(Number(nextValue), minTime, 15));
-                }}
-                error={errors.timeErr}
-                slotProps={{ htmlInput: { min: 3, max: 15, step: 1 } }}
-                onBlur={() => {
-                  if (timeBetweenLevels < minTime) setTimeBetweenLevels(minTime);
-                  else setTimeBetweenLevels(clamp(timeBetweenLevels, minTime, maxTime));
+              <Slider
+                className="level-slider"
+                aria-label={`Salaciousness level: ${summary}`}
+                value={[startLevel, endLevel]}
+                onChange={handleLevels}
+                min={0}
+                max={3}
+                step={1}
+                disableSwap
+                marks={LEVELS.map((l) => ({
+                  value: l.value,
+                  label: (
+                    <span className={"mark-label" + (inRange(l.value) ? " active" : "")} style={{ color: l.color }}>
+                      {l.label}
+                    </span>
+                  ),
+                }))}
+                sx={{
+                  "& .MuiSlider-track": {
+                    background: `linear-gradient(90deg, ${LEVELS[startLevel].color}, ${LEVELS[endLevel].color})`,
+                  },
+                  '& .MuiSlider-thumb[data-index="0"]': { backgroundColor: LEVELS[startLevel].color },
+                  '& .MuiSlider-thumb[data-index="1"]': { backgroundColor: LEVELS[endLevel].color },
                 }}
               />
+            </Box>
+
+            <Box className="time-wrapper">
+              <h3>Time between levels</h3>
+              <Stack direction="row" className="time-stepper" sx={{ alignItems: "center", justifyContent: "center" }}>
+                <IconButton
+                  aria-label="Decrease time"
+                  onClick={() => setTimeBetweenLevels(clamp(timeBetweenLevels - 1, minTime, maxTime))}
+                  disabled={timeBetweenLevels <= minTime}
+                >
+                  <Remove />
+                </IconButton>
+                <div className="time-value" aria-live="polite">
+                  {timeBetweenLevels} <span>min</span>
+                </div>
+                <IconButton
+                  aria-label="Increase time"
+                  onClick={() => setTimeBetweenLevels(clamp(timeBetweenLevels + 1, minTime, maxTime))}
+                  disabled={timeBetweenLevels >= maxTime}
+                >
+                  <Add />
+                </IconButton>
+              </Stack>
             </Box>
           </Stack>
         </div>
       </Well>
-      <Stack direction="row" sx={{ justifyContent: "center" }}>
-        <Button variant="contained" onClick={startGame}>
+      <Stack direction="row" sx={{ justifyContent: "center", pb: 4 }}>
+        <Button variant="contained" className="startBtn" onClick={startGame}>
           Start Game
         </Button>
       </Stack>
