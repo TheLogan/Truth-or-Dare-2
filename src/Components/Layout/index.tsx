@@ -11,9 +11,7 @@ const Layout = (props: LayoutProps) => {
   return (
     <Stack
       className="background"
-      justifyContent="center"
-      alignItems="center"
-      sx={{ width: '100vw' }}
+      sx={{ width: '100vw', justifyContent: 'center', alignItems: 'center' }}
     >
       <Box>{props.children}</Box>
     </Stack>

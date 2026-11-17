@@ -122,11 +122,11 @@ const GameSetup = () => {
       <Well variant="dark">
         {/* <Well variant="light"> */}
         <div className="setup-container">
-          <Stack direction="column" justifyContent="space-between" sx={{ height: "230px" }}>
+          <Stack direction="column" sx={{ height: "230px", justifyContent: "space-between" }}>
             <Box>
               <div className="level-wrapper">
                 <h3>Salaciousness Level</h3>
-                <Stack direction="row" justifyContent="space-evenly" alignItems="flex-end">
+                <Stack direction="row" sx={{ justifyContent: "space-evenly", alignItems: "flex-end" }}>
                   {levelStart()}
                   {levelEnd()}
                 </Stack>
@@ -159,7 +159,7 @@ const GameSetup = () => {
           </Stack>
         </div>
       </Well>
-      <Stack direction="row" justifyContent="center">
+      <Stack direction="row" sx={{ justifyContent: "center" }}>
         <Button variant="contained" onClick={startGame}>
           Start Game
         </Button>

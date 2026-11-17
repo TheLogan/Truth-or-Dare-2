@@ -49,9 +49,7 @@ const Play = () => {
       <>
         <Stack
           direction="column"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ width: '100vw' }}
+          sx={{ width: '100vw', justifyContent: 'space-between', alignItems: 'center' }}
         >
           {renderBtn("truth")}
           <h3 id="or">Or</h3>
