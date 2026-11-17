@@ -1,6 +1,6 @@
 .categoryContainer {
   border: 2px solid #516156;
-  background-image: url("../../../Assets/img/DarkTiling.jpg");
+  background-image: url("../../../assets/img/DarkTiling.jpg");
   background-size: 5%;
   padding: 20px;
   margin: 20px;
@@ -16,35 +16,76 @@
   padding: 10px;
 }
 
-.tableHead {
-  &.truth {
-    background-color: lightblue;
-  }
-  &.dare {
-    background-color: hotpink;
-  }
-  &.special {
-    background-color: gold;
-  }
-}
+$gold: #ffe19f;
 
-.tableRow {
-  &.truth {
-    border-bottom: lightblue 3px solid;
-  }
-  &.dare {
-    border-bottom: hotpink 3px solid;
-  }
-  &.special {
-    border-bottom: gold 3px solid;
-  }
-}
+.cardBrowser {
+  box-sizing: border-box;
+  width: min(1200px, 100vw);
+  padding: 12px 16px 40px;
 
-.formatBtnWrapper {
-  position: relative;
-  .formatBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    padding: 0;
+    margin: 24px 0 8px;
+    text-align: left;
+  }
+
+  .error {
+    color: #ffb4b4;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+
+  .MuiTableContainer-root {
+    background: rgba(20, 0, 4, 0.72);
+    background-image: url("../../../assets/img/DarkTiling.jpg");
+    background-size: 150px;
+    border: 2px solid #516156;
+    border-radius: 10px;
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.5);
+    color: $gold;
+  }
+
+  .MuiTableCell-root {
+    vertical-align: middle;
+    color: $gold;
+    border-bottom: 1px solid rgba(255, 225, 159, 0.15);
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .MuiTableRow-hover:hover .MuiTableCell-root {
+    background: rgba(255, 225, 159, 0.14);
+  }
+
+  .tableHead .MuiTableCell-root {
+    font-family: engebrechtreRg, Roboto, sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    background: rgba(0, 0, 0, 0.7);
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: #f8c458;
+    color: #f8c458;
+  }
+
+  .MuiSvgIcon-root {
+    color: $gold;
+  }
+
+  .MuiButton-contained {
+    background: linear-gradient(#ffe19f 40%, #f8c458 60%);
+    color: #3a0a10;
+    font-weight: 700;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+    &:hover { background: linear-gradient(#fff0c8 40%, #ffd06e 60%); }
   }
 }

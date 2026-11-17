@@ -1,0 +1,76 @@
+$gold: #ffe19f;
+$gold-dark: #f8c458;
+
+.adminDialog {
+  .MuiDialog-paper {
+    background-color: #2a0509;
+    background-image: url("../../../assets/img/DarkTiling.jpg");
+    background-size: 150px;
+    border: 2px solid #516156;
+    border-radius: 10px;
+    box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.5);
+    color: $gold;
+  }
+
+  .MuiDialogTitle-root {
+    font-family: BallantinesSerial, serif;
+    font-size: 2rem;
+    background-image: linear-gradient(#ffe19f 65%, #f8c458 70%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .MuiInputBase-root,
+  .MuiFormControlLabel-label,
+  .MuiFormHelperText-root {
+    color: $gold;
+  }
+
+  .MuiFormHelperText-root {
+    opacity: 0.7;
+  }
+
+  .MuiInputLabel-root {
+    color: rgba(255, 225, 159, 0.7);
+    &.Mui-focused { color: $gold-dark; }
+  }
+
+  .MuiOutlinedInput-root {
+    background: rgba(0, 0, 0, 0.35);
+    .MuiOutlinedInput-notchedOutline { border-color: rgba(255, 225, 159, 0.35); }
+    &:hover .MuiOutlinedInput-notchedOutline { border-color: $gold; }
+    &.Mui-focused .MuiOutlinedInput-notchedOutline { border-color: $gold-dark; }
+  }
+
+  .MuiSelect-icon { color: $gold; }
+
+  input[type="number"] { color-scheme: dark; }
+
+  .MuiSwitch-track { background-color: #888; }
+  .MuiSwitch-switchBase.Mui-checked {
+    color: $gold-dark;
+    + .MuiSwitch-track { background-color: $gold-dark; }
+  }
+
+  .error { color: #ffb4b4; }
+
+  .MuiButton-root { color: $gold; font-weight: 700; }
+  .MuiButton-root.Mui-disabled { color: rgba(255, 225, 159, 0.35); }
+  .MuiButton-contained {
+    background: linear-gradient(#ffe19f 40%, #f8c458 60%);
+    color: #3a0a10;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+    &:hover { background: linear-gradient(#fff0c8 40%, #ffd06e 60%); }
+    &.Mui-disabled { background: rgba(255, 225, 159, 0.2); color: rgba(255, 225, 159, 0.4); box-shadow: none; }
+  }
+  .MuiButton-colorError { color: #ff8a8a; }
+}
+
+// The select menu renders in its own portal, outside the dialog
+.adminMenu .MuiPaper-root {
+  background: #2a0509;
+  color: #ffe19f;
+  border: 1px solid #516156;
+  .Mui-selected { background: rgba(255, 225, 159, 0.2); }
+  .MuiMenuItem-root:hover { background: rgba(255, 225, 159, 0.14); }
+}

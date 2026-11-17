@@ -1,5 +1,5 @@
 export interface tCard {
-  id: number,
+  card_id: number,
   content:string,
   cards_in_game: number,
   spin_bottle: boolean,

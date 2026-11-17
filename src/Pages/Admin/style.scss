@@ -1,1 +1,26 @@
 
+
+.adminLogin {
+  width: min(360px, 90vw);
+  margin-bottom: -40px;
+  box-sizing: border-box;
+
+  h3 {
+    color: #7a1f2b;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.adminNav {
+  margin: 16px !important;
+  flex-wrap: wrap;
+}
+
+.adminNav .MuiButton-contained {
+  background: linear-gradient(#ffe19f 40%, #f8c458 60%);
+  color: #3a0a10;
+  font-weight: 700;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+  &:hover { background: linear-gradient(#fff0c8 40%, #ffd06e 60%); }
+}

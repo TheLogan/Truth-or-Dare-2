@@ -3,7 +3,7 @@ import Layout from './Components/Layout';
 import MainMenu from './Pages/MainMenu';
 import 'typeface-roboto'
 // import { useActions } from './Overmind';
-// import Admin from './Pages/Admin';
+import Admin from './Pages/Admin';
 import Game from './Pages/Game';
 import { Button } from '@mui/material';
 import AndroidIcon from '@mui/icons-material/Android';
@@ -32,6 +32,7 @@ function App() {
     <HashRouter>
       <Routes>
         <Route path="/game/*" element={<Game />} />
+        <Route path="/admin/*" element={<Admin />} />
         <Route path="/download" element={
           <Layout>
             <h3>Downloads</h3>

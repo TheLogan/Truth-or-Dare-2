@@ -8,6 +8,8 @@ import { useAtom, useSetAtom } from "jotai";
 import { startLevelAtom, endLevelAtom, timeBetweenLevelsAtom, startTimeAtom } from "../../../Jotai/Game";
 
 const LEVELS = [0, 1, 2, 3] as const;
+const minTime = 3;
+const maxTime = 15;
 
 const clamp = (val: number, min: number, max: number) => {
   if (val < min) return min;
@@ -143,16 +145,16 @@ const GameSetup = () => {
                 onChange={(e) => {
                   const nextValue = e.target.value;
                   if (nextValue === "") {
-                    setTimeBetweenLevels(0);
+                    setTimeBetweenLevels(minTime);
                     return;
                   }
-                  setTimeBetweenLevels(clamp(Number(nextValue), 3, 15));
+                  setTimeBetweenLevels(clamp(Number(nextValue), minTime, 15));
                 }}
                 error={errors.timeErr}
                 slotProps={{ htmlInput: { min: 3, max: 15, step: 1 } }}
                 onBlur={() => {
-                  if (timeBetweenLevels < 3) setTimeBetweenLevels(3);
-                  else setTimeBetweenLevels(clamp(timeBetweenLevels, 3, 15));
+                  if (timeBetweenLevels < minTime) setTimeBetweenLevels(minTime);
+                  else setTimeBetweenLevels(clamp(timeBetweenLevels, minTime, maxTime));
                 }}
               />
             </Box>
