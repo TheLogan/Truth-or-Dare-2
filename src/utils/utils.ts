@@ -153,7 +153,7 @@ export const useNextCard = () => {
 
     const discarded = tempDeck.splice(0, selectedIndex);
     const selected = tempDeck.splice(0, 1)[0];
-    if (currentCard) tempDiscard.push(currentCard); // currentCard should already be discarded, can this introduce duplicates?
+    if (currentCard) tempDiscard.push(currentCard);
     tempDiscard.push(...discarded);
 
     if (selected.card_type === "special") setCardsSinceLastSpecial(0);

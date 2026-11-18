@@ -8,6 +8,10 @@ Live at https://TheLogan.github.io/Truth-or-Dare-2/
 
 React 19, TypeScript 7, Vite 8, MUI, Jotai, Supabase. Linting is Oxlint (type-aware), tests are Vitest.
 
+## Setup
+
+Copy `.env.example` to `.env.local` and fill in your Supabase project URL and anon key (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). The app throws on startup if either is missing. For deploys, set the same two names as repository variables (Settings → Secrets and variables → Actions → Variables).
+
 ## Scripts
 
 | Command | What it does |

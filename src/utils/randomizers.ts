@@ -10,7 +10,7 @@ export const newOld = () => {
 };
 
 export const getTitle = () => {
-  const rnd = randomRange(0, 4);
+  const rnd = randomRange(0, 6);
 
   switch (rnd) {
     case 0:
@@ -18,11 +18,15 @@ export const getTitle = () => {
     case 1:
       return "Master/Mistress";
     case 2:
-      return "Master/Mistress";
+      return "Emperor/Empress";
     case 3:
       return "Your highness";
     case 4:
       return "Overlord";
+    case 5:
+      return "Grand Poobah";
+    case 6:
+      return "Dear Leader";
   }
   return "Master/Mistress";
 };
