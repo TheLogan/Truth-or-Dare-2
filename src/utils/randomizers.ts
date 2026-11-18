@@ -110,6 +110,9 @@ const MUSIC_GENRES = ["opera", "heavy metal", "country", "rap", "lullaby", "boy 
 
 export const getBodyPart = () => pick(BODY_PARTS);
 
+// For *bodyPart2*: always differs from the part already picked for *bodyPart*.
+export const getOtherBodyPart = (first: string) => pick(BODY_PARTS.filter((part) => part !== first));
+
 export const getDuration = () => pick(DURATIONS);
 
 export const getAccent = () => pick(ACCENTS);

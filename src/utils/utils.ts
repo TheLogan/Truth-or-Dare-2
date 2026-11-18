@@ -12,6 +12,7 @@ import {
   getDuration,
   getLeastMost,
   getMusicGenre,
+  getOtherBodyPart,
   getTitle,
   oneOrTwoPieces,
   wordEnding,
@@ -104,7 +105,9 @@ export const formatCardText = (description: string) => {
   descr = descr.replaceAll("*newOld*", newOld());
   descr = descr.replaceAll("*leastMost*", getLeastMost());
   descr = descr.replaceAll("*drinkStrip*", drinkOrStrip());
-  descr = descr.replaceAll("*bodyPart*", getBodyPart());
+  const bodyPart = getBodyPart();
+  descr = descr.replaceAll("*bodyPart*", bodyPart);
+  descr = descr.replaceAll("*bodyPart2*", getOtherBodyPart(bodyPart));
   descr = descr.replaceAll("*duration*", getDuration());
   descr = descr.replaceAll("*accent*", getAccent());
   descr = descr.replaceAll("*musicGenre*", getMusicGenre());

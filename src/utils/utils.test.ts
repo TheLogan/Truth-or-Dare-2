@@ -180,9 +180,17 @@ describe("formatCardText", () => {
 
   it("replaces every known placeholder", () => {
     const text =
-      "*12pieces* *direction* *wordEnding* *title* *youngOld* *newOld* *leastMost* *drinkStrip* *brandName* *category* *bodyPart* *duration* *accent* *musicGenre* *3@4*";
+      "*12pieces* *direction* *wordEnding* *title* *youngOld* *newOld* *leastMost* *drinkStrip* *brandName* *category* *bodyPart* *bodyPart2* *duration* *accent* *musicGenre* *3@4*";
     for (let i = 0; i < 100; i++) {
       expect(formatCardText(text)).not.toContain("*");
+    }
+  });
+
+  it("uses the same body part for repeated *bodyPart* and a different one for *bodyPart2*", () => {
+    for (let i = 0; i < 200; i++) {
+      const [a, b, c] = formatCardText("*bodyPart*|*bodyPart2*|*bodyPart*").split("|");
+      expect(a).toBe(c);
+      expect(b).not.toBe(a);
     }
   });
 

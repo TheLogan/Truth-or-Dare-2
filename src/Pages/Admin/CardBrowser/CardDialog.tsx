@@ -71,7 +71,7 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete, onPrev, on
             error={!!draft.content && !!errors.content}
             helperText={
               (draft.content && errors.content) ||
-              "Placeholders: *5@10*, *direction*, *drinkStrip*, *title*, *brandName*, *category*, *bodyPart*, *duration*, *accent*, *musicGenre* ..."
+              "Placeholders: *5@10*, *direction*, *drinkStrip*, *title*, *brandName*, *category*, *bodyPart*, *bodyPart2*, *duration*, *accent*, *musicGenre* ..."
             }
           />
           <TextField select label="Type" slotProps={{ select: { MenuProps: { className: "adminMenu" } } }} value={draft.card_type} onChange={(e) => set("card_type", e.target.value as tCard["card_type"])}>
