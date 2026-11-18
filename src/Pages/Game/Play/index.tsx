@@ -5,23 +5,40 @@ import { eCardState } from "../../../Components/GameCard/interfaces";
 import { capitalizeFirstLetter, initialShuffle, useDiscardSelected, useNextCard } from "../../../utils/utils";
 import "./style.scss";
 import { useAtomValue, useSetAtom } from "jotai";
-import { cardsAtom, currentCardAtom, deckAtom } from "../../../Jotai/Game";
+import { Navigate } from "react-router-dom";
+import { cardsAtom, currentCardAtom, deckAtom, resetGameAtom, startTimeAtom } from "../../../Jotai/Game";
 
 const Play = () => {
   const allCards = useAtomValue(cardsAtom);
+  const startTime = useAtomValue(startTimeAtom);
   const setDeck = useSetAtom(deckAtom);
+  const resetGame = useSetAtom(resetGameAtom);
   const currentCard = useAtomValue(currentCardAtom);
   const [cardState, setCardState] = useState<eCardState>(eCardState.unTouched);
+  const [notice, setNotice] = useState("");
   const nextCard = useNextCard();
   const discardSelected = useDiscardSelected();
 
   useEffect(() => {
-    // create game deck
-    const shuffledDeck = initialShuffle(allCards);
-    setDeck(shuffledDeck);
+    // Start every game from a clean slate, and (re)build the deck whenever the
+    // card list changes - it may still be loading when this page mounts.
+    resetGame();
+    setDeck(initialShuffle(allCards));
+  }, [allCards, resetGame, setDeck]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // startTime is only set by the setup page, so it is 0 after a refresh or a direct link.
+  if (startTime === 0) return <Navigate to="/game/setup" replace />;
+
+  const noCards = allCards.length === 0;
+
+  const draw = (category: "truth" | "dare") => {
+    try {
+      nextCard(category);
+      setNotice("");
+    } catch {
+      setNotice(`No ${category} card available at this level`);
+    }
+  };
 
   function renderBtn(category: "truth" | "dare") {
     return (
@@ -29,8 +46,8 @@ const Play = () => {
         variant="contained"
         id={category}
         className="btn"
-        onClick={() => nextCard(category)}
-        disabled={currentCard != null}
+        onClick={() => draw(category)}
+        disabled={currentCard != null || noCards}
       >
         {capitalizeFirstLetter(category)}
       </Button>
@@ -38,7 +55,8 @@ const Play = () => {
   }
 
   const gameState = () => {
-    if (currentCard === null) return "Truth or Dare";
+    if (noCards) return "No cards loaded yet";
+    if (currentCard === null) return notice || "Truth or Dare";
     if (cardState === eCardState.bottleNotSpun) return "Click bottle";
     if (cardState === eCardState.done) return "Swipe card";
     return "...";
