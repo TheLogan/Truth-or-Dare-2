@@ -10,19 +10,19 @@ const BottleRotation = (props: iProps) => {
 
   useEffect(() => {
     if (props.cardState !== eCardState.bottleSpinning) return;
-    console.log("Starting the rotation");
-    console.log("rotPoint", props.rotationPoint);
-    setTimeout(() => {
+    const timeoutId = window.setTimeout(() => {
       props.onDone();
-      console.log("The rotation has stopped");
     }, props.rotationPoint.ms);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
     // oxlint-disable-next-line react/exhaustive-deps
   }, [props.cardState]);
 
   const style: CSSProperties = {
     display: "inline-block",
     backfaceVisibility: "hidden",
-    transform: props.cardState < 2 ? `rotate(0deg)` : `rotate(${props.rotationPoint.deg}deg)`,
+    transform: props.cardState < eCardState.bottleSpinning ? `rotate(0deg)` : `rotate(${props.rotationPoint.deg}deg)`,
     transition: `transform ${props.rotationPoint.ms}ms`,
     width: "100%",
   };

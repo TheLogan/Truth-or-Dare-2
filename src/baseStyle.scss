@@ -1,6 +1,31 @@
+// Custom fonts. Vite bundles and hashes these; font-display: swap shows fallback text until they load.
+@font-face {
+  font-family: "engebrechtreRg";
+  src: url("./assets/Fonts/engebrechtreRg.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BlendaScript";
+  src: url("./assets/Fonts/BlendaScript.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LOKICOLA";
+  src: url("./assets/Fonts/LOKICOLA.TTF") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BallantinesSerial";
+  src: url("./assets/Fonts/BallantinesSerial.woff2") format("woff2");
+  font-display: swap;
+}
+
 h1 {
   font-family: BallantinesSerial;
-  font-size: 111px;
+  font-size: clamp(64px, 12vw, 111px);
   margin-top: 0px;
   margin-bottom: 0px;
   background-image: linear-gradient(#ffe19f 65%, #f8c458 70%);

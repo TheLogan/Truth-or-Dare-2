@@ -34,6 +34,6 @@ h3#or {
   top: 100px;
   left: 0;
   font-family: BlendaScript;
-  font-size: 30px;
+  font-size: clamp(44px, 8vw, 72px);
   color: gold;
 }

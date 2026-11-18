@@ -3,7 +3,6 @@ import { ArrowRight } from '@mui/icons-material'
 import { useNavigate } from "react-router-dom";
 import './style.scss';
 
-// import cards
 const GameMenu = () => {
   const navigation = useNavigate();
 
