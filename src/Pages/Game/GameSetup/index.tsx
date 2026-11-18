@@ -28,7 +28,7 @@ const GameSetup = () => {
 
   const startGame = () => {
     setStartTime(new Date().getTime());
-    navigate("/game/play");
+    void navigate("/game/play");
   };
 
   // Keep the thumbs at least one level apart so they never overlap.

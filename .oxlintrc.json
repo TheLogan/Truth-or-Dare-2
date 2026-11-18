@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react", "oxc"],
+  "env": { "browser": true, "es2022": true },
+  "categories": { "correctness": "error" },
+  "rules": {
+    "prefer-const": "error",
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  },
+  "ignorePatterns": ["dist", "src/supabase.types.ts"]
+}

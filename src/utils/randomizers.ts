@@ -1,7 +1,7 @@
-import { randomRange } from "./utils";
+import { randomRange } from "./randomRange";
 
 export const getDirection = () => {
-  var rand = randomRange(0, 1);
+  const rand = randomRange(0, 1);
   return rand === 0 ? "left" : "right";
 };
 
@@ -10,7 +10,7 @@ export const newOld = () => {
 };
 
 export const getTitle = () => {
-  var rnd = randomRange(0, 4);
+  const rnd = randomRange(0, 4);
 
   switch (rnd) {
     case 0:
@@ -20,7 +20,7 @@ export const getTitle = () => {
     case 2:
       return "Master/Mistress";
     case 3:
-      return "Your higness";
+      return "Your highness";
     case 4:
       return "Overlord";
   }
@@ -28,7 +28,7 @@ export const getTitle = () => {
 };
 
 export const wordEnding = () => {
-  var rnd = randomRange(0, 4);
+  const rnd = randomRange(0, 4);
 
   switch (rnd) {
     case 0:
@@ -42,7 +42,7 @@ export const wordEnding = () => {
     case 4:
       return "'penis'";
   }
-  return "Fuck";
+  return "'Fuck'";
 };
 
 export const youngOld = () => {
@@ -50,7 +50,7 @@ export const youngOld = () => {
 };
 
 export const brandCategory = () => {
-  var rand = randomRange(0, 13);
+  const rand = randomRange(0, 13);
 
   switch (rand) {
     case 0:
@@ -72,7 +72,7 @@ export const brandCategory = () => {
     case 8:
       return ["play", "shakespearean plays"];
     case 9:
-      return ["reindeer", "santas rainders"];
+      return ["reindeer", "santa's raindeers"];
     case 10:
       return ["movie", "disney movies"];
     case 11:
@@ -93,6 +93,6 @@ export const getLeastMost = () => {
 };
 
 export const drinkOrStrip = () => {
-  var rnd = randomRange(0, 10);
+  const rnd = randomRange(0, 10);
   return rnd > 8 ? "remove 1 piece of clothing" : "drink 3 times";
 };

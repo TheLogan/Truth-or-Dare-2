@@ -1,5 +1,7 @@
 import { useAtom, useAtomValue } from "jotai";
 import { tCard } from "../types";
+import { MAX_CARDS_IN_GAME } from "./cardLimits";
+import { randomRange } from "./randomRange";
 import {
   brandCategory,
   drinkOrStrip,
@@ -26,13 +28,15 @@ export const capitalizeFirstLetter = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export const randomRange = (min: number = 0, max: number = 10) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
-
 export const initialShuffle = (cards: tCard[]) => {
   const cardArr: tCard[] = [];
   cards.forEach((card) => {
-    for (let i = 0; i < card.cards_in_game; i++) {
+    // Clamp so a bad value already stored in the database can't freeze the game.
+    const copies = Math.min(
+      Math.max(Math.floor(card.cards_in_game) || 0, 0),
+      MAX_CARDS_IN_GAME,
+    );
+    for (let i = 0; i < copies; i++) {
       cardArr.push(card);
     }
   });
@@ -40,11 +44,12 @@ export const initialShuffle = (cards: tCard[]) => {
   return shuffledDeck;
 };
 
+// Fisher-Yates: O(n), returns a new array and leaves the input untouched.
 export const shuffleCards = (cards: tCard[]) => {
-  const shuffledDeck: tCard[] = [];
-  while (cards.length > 0) {
-    const index = Math.floor(Math.random() * cards.length);
-    shuffledDeck.push(...cards.splice(index, 1));
+  const shuffledDeck = [...cards];
+  for (let i = shuffledDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledDeck[i], shuffledDeck[j]] = [shuffledDeck[j], shuffledDeck[i]];
   }
   return shuffledDeck;
 };
@@ -115,7 +120,6 @@ export const useNextCard = () => {
   );
 
   const nextCard = (val: "truth" | "dare") => {
-    let selected: null | tCard = null;
     const currentLevel = getCurrentLevel(
       startTime,
       startLevel,
@@ -138,10 +142,9 @@ export const useNextCard = () => {
     while (selectedIndex < 0 && attempts < 5) {
       selectedIndex = findIndex(tempDeck);
       if (selectedIndex < 0) {
-        tempDiscard = [...discardPile, ...deck];
-        tempDeck = shuffleCards(tempDiscard);
-
-        console.log("shuffling");
+        // Everything goes back into the deck, so the discard pile starts empty.
+        tempDeck = shuffleCards([...discardPile, ...deck]);
+        tempDiscard = [];
       }
       attempts++;
     }
@@ -149,7 +152,7 @@ export const useNextCard = () => {
     if (selectedIndex < 0) throw new Error("card index is less than 0");
 
     const discarded = tempDeck.splice(0, selectedIndex);
-    selected = tempDeck.splice(0, 1)[0];
+    const selected = tempDeck.splice(0, 1)[0];
     if (currentCard) tempDiscard.push(currentCard); // currentCard should already be discarded, can this introduce duplicates?
     tempDiscard.push(...discarded);
 

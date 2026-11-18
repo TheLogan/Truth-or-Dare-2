@@ -77,8 +77,9 @@ const Play = () => {
           <div
             style={{
               position: "absolute",
-              left: "calc(50vw - 118px)",
-              top: "calc(50vh - 207px)",
+              left: "50vw",
+              top: "50vh",
+              transform: "translate(-50%, -50%)",
             }}
           >
             <GameCard

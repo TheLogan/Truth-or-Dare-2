@@ -12,20 +12,19 @@ import { supabase } from './Components/Supabase';
 import { useEffect } from "react";
 import { useSetAtom } from "jotai";
 import { cardsAtom } from "./Jotai/Game";
+import type { tCard } from "./types";
 function App() {
   
   const setCards = useSetAtom(cardsAtom);
   useEffect(() => {
-    fetchCards();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const fetchCards = async () => {
-    const { data: cards, error } = await supabase.from('cards').select('*');
-    if (error) console.log('error', error);
-    else setCards(cards);
-    console.log('cards', cards)
-  };
+    const fetchCards = async () => {
+      const { data: cards, error } = await supabase.from('cards').select('*');
+      if (error) console.log('error', error);
+      else setCards(cards as tCard[]);
+      console.log('cards', cards)
+    };
+    fetchCards().catch((e) => console.log('error', e));
+  }, [setCards]);
 
   //Routing on individual pages/subroutes
   return (

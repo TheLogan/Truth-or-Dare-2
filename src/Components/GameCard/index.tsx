@@ -4,7 +4,8 @@ import bottle from '../../assets/img/wine-bottle.png';
 import './style.scss'
 import BottleRotation from "../../FX/BottleRotation";
 import Draggable from "../../FX/Draggable";
-import { formatCardText, getRotation, randomRange } from "../../utils/utils";
+import { formatCardText, getRotation } from "../../utils/utils";
+import { randomRange } from "../../utils/randomRange";
 
 // Card text ranges from a few words to ~150 characters, so scale the type to fit.
 const textSize = (length: number) => {
@@ -16,20 +17,14 @@ const textSize = (length: number) => {
 
 const GameCard = forwardRef<HTMLDivElement, iCard>((props, ref) => {
   const [descriptiveText, setDescriptiveText] = useState('');
-  const [rotation] = useState(getRotation());
-  const [timing] = useState(randomRange(2, 3) * 1000);
+  const [rotation] = useState(getRotation);
+  const [timing] = useState(() => randomRange(2, 3) * 1000);
 
   useEffect(() => {
     props.onCardStateChange?.(props.card.spin_bottle ? eCardState.bottleNotSpun : eCardState.done);
     setDescriptiveText(formatCardText(props.card.content));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if(!props.card.spin_bottle) return;
-    console.log('Card state', props.cardState)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props]);
 
   function renderBottle() {
     if (props.card.spin_bottle === false || !props.cardState || !props.onCardStateChange) return <></>;
@@ -38,7 +33,7 @@ const GameCard = forwardRef<HTMLDivElement, iCard>((props, ref) => {
       <div id="bottleWrapper">
         <BottleRotation
           cardState={props.cardState}
-          rotationPoint={{deg: rotation, ms: timing}}
+          rotationPoint={{ deg: rotation, ms: timing }}
           onDone={() => props.onCardStateChange && props.onCardStateChange(eCardState.done)}
         >
           <img id="bottle" src={bottle} alt="bottle" draggable={false}

@@ -16,7 +16,7 @@ const BottleRotation = (props: iProps) => {
       props.onDone();
       console.log("The rotation has stopped");
     }, props.rotationPoint.ms);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react/exhaustive-deps
   }, [props.cardState]);
 
   const style: CSSProperties = {

@@ -8,8 +8,11 @@ import { supabase } from "../../../Components/Supabase";
 import { cardsAtom } from "../../../Jotai/Game";
 import type { tCard } from "../../../types";
 import { formatCardText } from "../../../utils/utils";
-import CardDialog, { CardDraft, emptyCard } from "./CardDialog";
+import CardDialog from "./CardDialog";
+import { type CardDraft, emptyCard } from "./cardDraft";
 import "./style.scss";
+
+const fetchAllCards = () => supabase.from("cards").select("*").order("card_id");
 
 const CardBrowser = () => {
   const [cards, setCards] = useAtom(cardsAtom);
@@ -18,15 +21,16 @@ const CardBrowser = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-  const load = async () => {
-    const { data, error } = await supabase.from("cards").select("*").order("card_id");
+  const applyResult = ({ data, error }: Awaited<ReturnType<typeof fetchAllCards>>) => {
     if (error) setError(error.message);
     else setCards(data as tCard[]);
   };
 
+  const load = async () => applyResult(await fetchAllCards());
+
   useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchAllCards().then(applyResult);
+    // oxlint-disable-next-line react/exhaustive-deps
   }, []);
 
   const close = () => {
