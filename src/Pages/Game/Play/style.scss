@@ -37,3 +37,16 @@ h3#or {
   font-size: clamp(44px, 8vw, 72px);
   color: gold;
 }
+
+// Invisible, feedback-free "never show this card again" target.
+#secretBlock {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 72px;
+  height: 72px;
+  z-index: 1000;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}

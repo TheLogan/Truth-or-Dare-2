@@ -8,4 +8,5 @@ export const emptyCard: CardDraft = {
   spin_bottle: false,
   card_type: "truth",
   level: 0,
+  avoid: false,
 };

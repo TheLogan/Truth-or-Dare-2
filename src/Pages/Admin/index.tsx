@@ -35,7 +35,7 @@ const Admin = () => {
 
   return (
     <Layout>
-      <Stack direction="row" spacing={2} className="adminNav" sx={{ justifyContent: "center" }}>
+      <Stack direction="row" spacing={2} className="adminNav">
         <Button variant="contained" onClick={() => navigate("/")}>Main menu</Button>
         <Button variant="contained" onClick={() => supabase.auth.signOut()}>
           Log out

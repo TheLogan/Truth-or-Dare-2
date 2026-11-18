@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       cards: {
         Row: {
+          avoid: boolean
           card_id: number
           card_type: Database["public"]["Enums"]["card_type_enum"] | null
           cards_in_game: number
@@ -24,6 +25,7 @@ export type Database = {
           spin_bottle: boolean
         }
         Insert: {
+          avoid?: boolean
           card_id?: number
           card_type?: Database["public"]["Enums"]["card_type_enum"] | null
           cards_in_game: number
@@ -32,6 +34,7 @@ export type Database = {
           spin_bottle: boolean
         }
         Update: {
+          avoid?: boolean
           card_id?: number
           card_type?: Database["public"]["Enums"]["card_type_enum"] | null
           cards_in_game?: number

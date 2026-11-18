@@ -1,6 +1,6 @@
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
-  FormControlLabel, MenuItem, Stack, Switch, TextField,
+  Checkbox, FormControlLabel, MenuItem, Stack, Switch, TextField,
 } from "@mui/material";
 import { useState } from "react";
 import type { tCard } from "../../../types";
@@ -16,22 +16,33 @@ interface Props {
   saving: boolean;
   error: string;
   onClose: () => void;
-  onSave: (card: CardDraft) => void;
+  onSave: (card: CardDraft, keepOpen?: boolean) => Promise<boolean>;
   onDelete?: () => void;
+  // Only passed when editing an existing card that has a neighbour in that direction
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
-const CardDialog = ({ card, saving, error, onClose, onSave, onDelete }: Props) => {
+const CardDialog = ({ card, saving, error, onClose, onSave, onDelete, onPrev, onNext }: Props) => {
   const [draft, setDraft] = useState<CardDraft>(card);
   const [preview, setPreview] = useState(false);
   const [shuffle, setShuffle] = useState(0);
+  const [createAnother, setCreateAnother] = useState(false);
   const isNew = draft.card_id === undefined;
   const errors = validateCard(draft);
   const isValid = Object.keys(errors).length === 0;
   const set = <K extends keyof CardDraft>(key: K, value: CardDraft[K]) =>
     setDraft((d) => ({ ...d, [key]: value }));
 
+  const handleSave = async () => {
+    const keepOpen = isNew && createAnother;
+    const ok = await onSave(draft, keepOpen);
+    // Keep type/level/etc. for the next card, only clear the text
+    if (ok && keepOpen) set("content", "");
+  };
+
   return (
-    <Dialog open onClose={onClose} fullWidth maxWidth="sm" className="adminDialog">
+    <Dialog open onClose={(_, reason) => reason !== "backdropClick" && onClose()} fullWidth maxWidth="sm" className="adminDialog">
       <DialogTitle>{isNew ? "New card" : `Edit card #${draft.card_id}`}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
@@ -71,9 +82,22 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete }: Props) =
             slotProps={{ htmlInput: { min: MIN_CARDS_IN_GAME, max: MAX_CARDS_IN_GAME, step: 1 } }}
           />
           <FormControlLabel
+            sx={{ alignSelf: "flex-start" }}
             control={<Switch checked={draft.spin_bottle} onChange={(e) => set("spin_bottle", e.target.checked)} />}
             label="Spin bottle"
           />
+          <FormControlLabel
+            sx={{ alignSelf: "flex-start" }}
+            control={<Checkbox checked={!!draft.avoid} onChange={(e) => set("avoid", e.target.checked)} />}
+            label="Avoid (secret filter)"
+          />
+          {isNew && (
+            <FormControlLabel
+              sx={{ alignSelf: "flex-start" }}
+              control={<Checkbox checked={createAnother} onChange={(e) => setCreateAnother(e.target.checked)} />}
+              label="Create another"
+            />
+          )}
           {preview && (
             <div className="cardPreview">
               {/* GameCard formats its text on mount, so remount when anything changes */}
@@ -88,10 +112,16 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete }: Props) =
         </Stack>
       </DialogContent>
       <DialogActions>
+        {!isNew && (
+          <>
+            <Button onClick={onPrev} disabled={saving || !onPrev}>&larr; Prev</Button>
+            <Button onClick={onNext} disabled={saving || !onNext}>Next &rarr;</Button>
+          </>
+        )}
         {onDelete && <Button color="error" onClick={onDelete} disabled={saving}>Delete</Button>}
         <Button onClick={() => setPreview((p) => !p)}>{preview ? "Hide preview" : "Preview"}</Button>
         <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" disabled={saving || !isValid} onClick={() => onSave(draft)}>
+        <Button variant="contained" disabled={saving || !isValid} onClick={handleSave}>
           Save
         </Button>
       </DialogActions>

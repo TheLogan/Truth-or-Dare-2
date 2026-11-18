@@ -14,6 +14,7 @@ import {
   youngOld,
 } from "./randomizers";
 import {
+  avoidArmedAtom,
   cardsSinceLastSpecialAtom,
   currentCardAtom,
   deckAtom,
@@ -115,6 +116,7 @@ export const useNextCard = () => {
   const startLevel = useAtomValue(startLevelAtom);
   const endLevel = useAtomValue(endLevelAtom);
   const timeBetweenLevels = useAtomValue(timeBetweenLevelsAtom);
+  const [avoidArmed, setAvoidArmed] = useAtom(avoidArmedAtom);
   const [cardsSinceLastSpecial, setCardsSinceLastSpecial] = useAtom(
     cardsSinceLastSpecialAtom,
   );
@@ -131,7 +133,8 @@ export const useNextCard = () => {
         (x) =>
           (x.card_type === val ||
             (x.card_type === "special" && cardsSinceLastSpecial > 4)) &&
-          x.level <= currentLevel,
+          x.level <= currentLevel &&
+          !(avoidArmed && x.avoid),
       );
     let selectedIndex = -1;
     let attempts = 0;
@@ -159,6 +162,7 @@ export const useNextCard = () => {
     if (selected.card_type === "special") setCardsSinceLastSpecial(0);
     else setCardsSinceLastSpecial(cardsSinceLastSpecial + 1);
 
+    setAvoidArmed(false);
     setDeck(tempDeck);
     setCurrentCard(selected);
     setDiscardPile(tempDiscard);

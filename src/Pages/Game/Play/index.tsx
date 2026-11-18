@@ -1,17 +1,19 @@
 import { Button, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GameCard from "../../../Components/GameCard";
 import { eCardState } from "../../../Components/GameCard/interfaces";
 import { capitalizeFirstLetter, initialShuffle, useDiscardSelected, useNextCard } from "../../../utils/utils";
 import "./style.scss";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Navigate } from "react-router-dom";
-import { cardsAtom, currentCardAtom, deckAtom, resetGameAtom, startTimeAtom } from "../../../Jotai/Game";
+import { avoidArmedAtom, cardsAtom, currentCardAtom, deckAtom, resetGameAtom, startTimeAtom } from "../../../Jotai/Game";
 
 const Play = () => {
   const allCards = useAtomValue(cardsAtom);
   const startTime = useAtomValue(startTimeAtom);
   const setDeck = useSetAtom(deckAtom);
+  const setAvoidArmed = useSetAtom(avoidArmedAtom);
+  const lastTap = useRef(0);
   const resetGame = useSetAtom(resetGameAtom);
   const currentCard = useAtomValue(currentCardAtom);
   const [cardState, setCardState] = useState<eCardState>(eCardState.unTouched);
@@ -38,6 +40,15 @@ const Play = () => {
     } catch {
       setNotice(`No ${category} card available at this level`);
     }
+  };
+
+  // Secret: double-tap the invisible corner button before choosing a category and
+  // the next draw skips cards flagged "avoid". Deliberately gives no feedback.
+  const onSecretTap = () => {
+    const now = Date.now();
+    const isDouble = now - lastTap.current < 400;
+    lastTap.current = isDouble ? 0 : now;
+    if (isDouble && currentCard === null) setAvoidArmed(true);
   };
 
   function renderBtn(category: "truth" | "dare") {
@@ -99,6 +110,7 @@ const Play = () => {
     <>
       <div id="helperText">{gameState()}</div>
       {renderBody()}
+      <div id="secretBlock" aria-hidden="true" onPointerUp={onSecretTap} />
     </>
   );
 };

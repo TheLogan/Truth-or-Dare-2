@@ -7,6 +7,9 @@ export const deckAtom = atom<tCard[]>([]);
 export const currentCardAtom = atom<tCard | null>(null);
 export const discardPileAtom = atom<tCard[]>([]);
 
+// Set by the hidden corner button; makes the next draw skip "avoid" cards.
+export const avoidArmedAtom = atom(false);
+
 export const startLevelAtom = atom(0);
 export const endLevelAtom = atom(1);
 export const startTimeAtom = atom(0);
@@ -19,4 +22,5 @@ export const resetGameAtom = atom(null, (_get, set) => {
   set(discardPileAtom, []);
   set(currentCardAtom, null);
   set(cardsSinceLastSpecialAtom, 0);
+  set(avoidArmedAtom, false);
 });

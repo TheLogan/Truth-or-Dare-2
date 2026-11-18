@@ -38,7 +38,8 @@ const CardBrowser = () => {
     setError("");
   };
 
-  const handleSave = async (card: CardDraft) => {
+  // Resolves true on success. With keepOpen the dialog stays up so another card can be added.
+  const handleSave = async (card: CardDraft, keepOpen = false): Promise<boolean> => {
     setSaving(true);
     setError("");
     const { card_id, ...fields } = card;
@@ -48,10 +49,11 @@ const CardBrowser = () => {
     // select() so RLS-blocked writes (0 rows affected) surface as an error
     const { data, error } = await query.select();
     setSaving(false);
-    if (error) return setError(error.message);
-    if (!data?.length) return setError("Nothing was saved - you may not have permission.");
+    if (error) return setError(error.message), false;
+    if (!data?.length) return setError("Nothing was saved - you may not have permission."), false;
     await load();
-    close();
+    if (!keepOpen) close();
+    return true;
   };
 
   const handleDelete = async () => {
@@ -66,6 +68,14 @@ const CardBrowser = () => {
     close();
   };
 
+  // Same order as the tables on screen, so prev/next in the dialog follows the list
+  const ordered = (["truth", "dare", "special"] as const).flatMap((t) => cards.filter((c) => c.card_type === t));
+  const selectedIndex = selected?.card_id === undefined ? -1 : ordered.findIndex((c) => c.card_id === selected.card_id);
+  const step = (delta: number) => {
+    setError("");
+    setSelected(ordered[selectedIndex + delta]);
+  };
+
   const renderTable = (variant: tCard["card_type"]) => {
     const rows = cards.filter((c) => c.card_type === variant);
     return (
@@ -78,6 +88,7 @@ const CardBrowser = () => {
               <TableCell align="right">Level</TableCell>
               <TableCell align="right">Spin bottle</TableCell>
               <TableCell align="right">Amount in game</TableCell>
+              <TableCell align="right">Avoid</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,6 +105,7 @@ const CardBrowser = () => {
                 <TableCell align="right">{card.level}</TableCell>
                 <TableCell align="right">{card.spin_bottle ? <CheckBox /> : <CheckBoxOutlineBlank />}</TableCell>
                 <TableCell align="right">{card.cards_in_game}</TableCell>
+                <TableCell align="right">{card.avoid ? <CheckBox /> : <CheckBoxOutlineBlank />}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -126,6 +138,8 @@ const CardBrowser = () => {
           error={error}
           onClose={close}
           onSave={handleSave}
+          onPrev={selectedIndex > 0 ? () => step(-1) : undefined}
+          onNext={selectedIndex >= 0 && selectedIndex < ordered.length - 1 ? () => step(1) : undefined}
           onDelete={selected.card_id !== undefined ? handleDelete : undefined}
         />
       )}
