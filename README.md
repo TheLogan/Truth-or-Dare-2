@@ -23,4 +23,4 @@ Copy `.env.example` to `.env.local` and fill in your Supabase project URL and an
 
 ## Deploys
 
-Every push to `main` runs lint, tests and the build, then publishes `dist` to the `gh-pages` branch (see `.github/workflows/node.js.yml`). The deploy stops if lint or tests fail.
+Every push to `main` runs lint, tests and the build, then deploys `dist` to GitHub Pages via the official Pages actions (see `.github/workflows/node.js.yml`). The deploy stops if lint or tests fail.
