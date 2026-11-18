@@ -100,3 +100,18 @@ export const drinkOrStrip = () => {
   const rnd = randomRange(0, 10);
   return rnd > 8 ? "remove 1 piece of clothing" : "drink 3 times";
 };
+
+const pick = <T>(items: readonly T[]): T => items[randomRange(0, items.length - 1)];
+
+const BODY_PARTS = ["neck", "shoulder", "hand", "ear", "wrist", "back", "cheek", "forehead"] as const;
+const DURATIONS = ["10 seconds", "20 seconds", "30 seconds", "a full minute"] as const;
+const ACCENTS = ["French", "pirate", "posh British", "Southern American", "robot", "Scottish", "Russian"] as const;
+const MUSIC_GENRES = ["opera", "heavy metal", "country", "rap", "lullaby", "boy band", "jazz"] as const;
+
+export const getBodyPart = () => pick(BODY_PARTS);
+
+export const getDuration = () => pick(DURATIONS);
+
+export const getAccent = () => pick(ACCENTS);
+
+export const getMusicGenre = () => pick(MUSIC_GENRES);

@@ -180,7 +180,7 @@ describe("formatCardText", () => {
 
   it("replaces every known placeholder", () => {
     const text =
-      "*12pieces* *direction* *wordEnding* *title* *youngOld* *newOld* *leastMost* *drinkStrip* *brandName* *category* *3@4*";
+      "*12pieces* *direction* *wordEnding* *title* *youngOld* *newOld* *leastMost* *drinkStrip* *brandName* *category* *bodyPart* *duration* *accent* *musicGenre* *3@4*";
     for (let i = 0; i < 100; i++) {
       expect(formatCardText(text)).not.toContain("*");
     }

@@ -28,6 +28,14 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete, onPrev, on
   const [preview, setPreview] = useState(false);
   const [shuffle, setShuffle] = useState(0);
   const [createAnother, setCreateAnother] = useState(false);
+  // The dialog stays mounted when stepping between cards (remounting replays its
+  // open animation), so load the new card into the draft when the prop changes.
+  const [shownCard, setShownCard] = useState(card);
+  if (card !== shownCard) {
+    setShownCard(card);
+    setDraft(card);
+    setCreateAnother(false);
+  }
   const isNew = draft.card_id === undefined;
   const errors = validateCard(draft);
   const isValid = Object.keys(errors).length === 0;
@@ -43,7 +51,15 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete, onPrev, on
 
   return (
     <Dialog open onClose={(_, reason) => reason !== "backdropClick" && onClose()} fullWidth maxWidth="sm" className="adminDialog">
-      <DialogTitle>{isNew ? "New card" : `Edit card #${draft.card_id}`}</DialogTitle>
+      <DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 1 }}>
+        {isNew ? "New card" : `Edit card #${draft.card_id}`}
+        {!isNew && (
+          <span>
+            <Button onClick={onPrev} disabled={saving || !onPrev}>&larr; Prev</Button>
+            <Button onClick={onNext} disabled={saving || !onNext}>Next &rarr;</Button>
+          </span>
+        )}
+      </DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 1 }}>
           <TextField
@@ -55,7 +71,7 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete, onPrev, on
             error={!!draft.content && !!errors.content}
             helperText={
               (draft.content && errors.content) ||
-              "Placeholders: *5@10*, *direction*, *drinkStrip*, *title*, *brandName*, *category* ..."
+              "Placeholders: *5@10*, *direction*, *drinkStrip*, *title*, *brandName*, *category*, *bodyPart*, *duration*, *accent*, *musicGenre* ..."
             }
           />
           <TextField select label="Type" slotProps={{ select: { MenuProps: { className: "adminMenu" } } }} value={draft.card_type} onChange={(e) => set("card_type", e.target.value as tCard["card_type"])}>
@@ -112,12 +128,6 @@ const CardDialog = ({ card, saving, error, onClose, onSave, onDelete, onPrev, on
         </Stack>
       </DialogContent>
       <DialogActions>
-        {!isNew && (
-          <>
-            <Button onClick={onPrev} disabled={saving || !onPrev}>&larr; Prev</Button>
-            <Button onClick={onNext} disabled={saving || !onNext}>Next &rarr;</Button>
-          </>
-        )}
         {onDelete && <Button color="error" onClick={onDelete} disabled={saving}>Delete</Button>}
         <Button onClick={() => setPreview((p) => !p)}>{preview ? "Hide preview" : "Preview"}</Button>
         <Button onClick={onClose}>Cancel</Button>

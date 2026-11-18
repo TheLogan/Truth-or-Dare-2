@@ -132,7 +132,6 @@ const CardBrowser = () => {
 
       {selected && (
         <CardDialog
-          key={selected.card_id ?? "new"}
           card={selected}
           saving={saving}
           error={error}

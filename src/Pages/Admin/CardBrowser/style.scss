@@ -71,3 +71,18 @@ $gold: #ffe19f;
     &:hover { background: linear-gradient(#fff0c8 40%, #ffd06e 60%); }
   }
 }
+
+// With room beside the table, the toolbar joins the nav column down the left edge
+// (see .adminNav in Admin/style.scss, which sits above it).
+@media (min-width: 1700px) {
+  .cardBrowser .toolbar {
+    position: fixed;
+    top: 130px;
+    left: 16px;
+    z-index: 10;
+    width: 210px;
+    flex-direction: column;
+    margin: 0;
+    .MuiButton-root { width: 100%; }
+  }
+}

@@ -6,8 +6,12 @@ import {
   brandCategory,
   drinkOrStrip,
   newOld,
+  getAccent,
+  getBodyPart,
   getDirection,
+  getDuration,
   getLeastMost,
+  getMusicGenre,
   getTitle,
   oneOrTwoPieces,
   wordEnding,
@@ -100,6 +104,10 @@ export const formatCardText = (description: string) => {
   descr = descr.replaceAll("*newOld*", newOld());
   descr = descr.replaceAll("*leastMost*", getLeastMost());
   descr = descr.replaceAll("*drinkStrip*", drinkOrStrip());
+  descr = descr.replaceAll("*bodyPart*", getBodyPart());
+  descr = descr.replaceAll("*duration*", getDuration());
+  descr = descr.replaceAll("*accent*", getAccent());
+  descr = descr.replaceAll("*musicGenre*", getMusicGenre());
   const [brandName, category] = brandCategory();
   descr = descr.replaceAll("*brandName*", brandName);
   descr = descr.replaceAll("*category*", category);
