@@ -24,3 +24,13 @@ Copy `.env.example` to `.env.local` and fill in your Supabase project URL and an
 ## Deploys
 
 Every push to `main` runs lint, tests and the build, then deploys `dist` to GitHub Pages via the official Pages actions (see `.github/workflows/node.js.yml`). The deploy stops if lint or tests fail.
+
+## Android APK
+
+Pushing a tag like `v1.0.0` runs `.github/workflows/release-apk.yml`. It builds the web app, wraps it with Capacitor, builds a debug-signed APK and attaches it to a GitHub Release as `truth-or-dare.apk`. The in-app Download page links to `releases/latest/download/truth-or-dare.apk`, so it always serves the newest release.
+
+```
+git tag v1.0.0 && git push origin v1.0.0
+```
+
+The APK is signed with a throwaway debug key, so each release has a different signature and Android won't update over a previous install; uninstall the old one first.

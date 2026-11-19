@@ -35,7 +35,7 @@ function App() {
         <Route path="/download" element={
           <Layout>
             <h3>Downloads</h3>
-            <Button variant="contained" href="https://drive.google.com/u/0/uc?export=download&confirm=KeQY&id=1Gpk5VfrgzZznF49S9rke4syIX3N_CGFB">
+            <Button variant="contained" href="https://github.com/TheLogan/Truth-or-Dare-2/releases/latest/download/truth-or-dare.apk">
               <AndroidIcon style={{ paddingRight: '10px' }} />
               Android
             </Button>

@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+# Generated in CI by `npx cap add android`
+android
 dist-ssr
 *.local
 

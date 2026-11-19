@@ -1,0 +1,57 @@
+name: Release APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The APK serves the app from the device root, so assets need a relative
+      # base instead of the GitHub Pages sub-path set in vite.config.ts.
+      - name: Build web app
+        run: npm run build -- --base=./
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Generate Android project
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: Build APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk truth-or-dare.apk
+          gh release create "$GITHUB_REF_NAME" truth-or-dare.apk \
+            --title "$GITHUB_REF_NAME" --generate-notes
